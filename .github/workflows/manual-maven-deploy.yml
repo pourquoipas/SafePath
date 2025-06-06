@@ -1,0 +1,48 @@
+
+name: Manual Maven Package Deployment
+
+on:
+  workflow_dispatch: # Permette l'avvio manuale dalla scheda "Actions" del repository
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest # Usa l'ultima versione stabile di Ubuntu fornita da GitHub
+
+    permissions:
+      contents: read    # Permesso per fare il checkout del codice
+      packages: write   # Permesso per pubblicare package su GitHub Packages
+
+    # Definiamo le variabili d'ambiente a livello di job
+    # GITHUB_ACTOR è già disponibile automaticamente
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Rendiamo il token segreto disponibile come variabile d'ambiente
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4 # Azione per scaricare il codice del tuo repository
+
+      - name: Set up JDK (Java 8)
+        uses: actions/setup-java@v4
+        with:
+          java-version: '8' # Assicurati che corrisponda a <maven.compiler.source> nel pom.xml
+          distribution: 'temurin' # Una distribuzione JDK popolare e affidabile
+          # Configura Maven per usare GITHUB_TOKEN per l'autenticazione con GitHub Packages
+          server-id: github # Deve corrispondere all'<id> in distributionManagement del pom.xml
+          # server-username: ${{ github.actor }} # Nome utente GitHub di chi ha avviato l'azione
+          # server-password: ${{ secrets.GITHUB_TOKEN }} # Il token fornito da GitHub Actions
+
+      - name: Display Maven settings for debug
+        run: |
+          echo ">>> Displaying ~/.m2/settings.xml <<<"
+          if [ -f ~/.m2/settings.xml ]; then
+            cat ~/.m2/settings.xml
+          else
+            echo "File ~/.m2/settings.xml not found."
+          fi
+          echo ">>> End of settings.xml <<<"
+          echo ">>> Verifying environment variables <<<"
+          echo "GITHUB_ACTOR is: $GITHUB_ACTOR" # Verifica che GITHUB_ACTOR sia popolata
+          echo "GITHUB_TOKEN is set (length): ${#GITHUB_TOKEN}" # Verifica se GITHUB_TOKEN è impostata (mostra la lunghezza per non loggare il token)
+
+      - name: Deploy package to GitHub Packages
+        run: mvn deploy -B # -B per "batch mode", evita output interattivi e usa le configurazioni
