@@ -129,4 +129,19 @@ class SafePathJunitTest {
         assertTrue(result.isPresent());
         assertEquals("123 Main St, TestCity, TestCity", result.get());
     }
+
+    @Test
+    @DisplayName("Should handle default values in the middle of the path")
+    void testDefaultInMiddleOfPath() {
+        // First case: default address is not null
+        Optional<String> result = SafePath.invoke(userWithNullAddress, "?.getAddress() ?? #0?.getStreet() ?? #1", new SafePathTester.Address("Default Address"), "Default Street");
+        assertTrue(result.isPresent());
+        assertEquals("Default Address", result.get());
+
+        // Second case: default address is null
+        result = SafePath.invoke(userWithNullAddress, "?.getAddress() ?? #0?.getStreet() ?? #1", null, "Default Street");
+        assertTrue(result.isPresent());
+        assertEquals("Default Street", result.get());
+    }
+
 }
