@@ -40,6 +40,8 @@ public class SafePathTester {
         User userWithGoodAddress = new User(goodAddress);
         User userWithNullAddress = new User(null);
         String defaultStreet = "Unknown Street";
+        Address defaultAddressWithStreet = new Address("Street of Default Address");
+        Address defaultAddressWithNullStreet = new Address(null);
 
         System.out.println("\n1. Test: Percorso sicuro completo");
         Optional<String> street = SafePath.invoke(userWithGoodAddress, "?.getAddress()?.getStreet()");
@@ -63,6 +65,11 @@ public class SafePathTester {
         } catch (NullPointerException e) {
             System.out.println("   Risultato: Eccezione catturata (corretto) -> " + e.getMessage());
         }
+
+        System.out.println("\n4. Test: Metodo con default su chiamate e parametri (#0, #1)");
+        Optional<String> defaultOnCalls = SafePath.invoke(userWithNullAddress, "?.getAddress() ?? #2?.formatAddress(#0, #1).toUpperCase()", "Springfield", "12345", defaultAddressWithStreet);
+        System.out.println("   Risultato: " + defaultOnCalls.orElse("FALLITO"));
+
         System.out.println("\n--- Demo Finished ---");
     }
 }
