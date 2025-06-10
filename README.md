@@ -1,8 +1,7 @@
 # SafePath: Fluent and Null-Safe Object Graph Navigation for Java
 
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/pourquoipas/SafePath)
-[![Maven Central](https://img.shields.io/maven-central/v/net.gnius/safepath.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:net.gnius%20AND%20a:safepath)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-CC_BY--NC--SA--4.0-green)](http://creativecommons.org/licenses/by-nc-sa/4.0/)
 
 **SafePath** is a zero-dependency Java utility that allows you to navigate complex object graphs using a simple, powerful path expression. It eliminates verbose `if (obj != null && obj.get...() != null)` checks and prevents `NullPointerException`s with an elegant, fluent syntax inspired by modern language features.
 
