@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2025 Gianluca Terenziani
+ *
+ * Questo file è parte di SafePath.
+ * SafePath è distribuito sotto i termini della licenza
+ * Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International.
+ *
+ * Dovresti aver ricevuto una copia della licenza insieme a questo progetto.
+ * In caso contrario, la puoi trovare su: http://creativecommons.org/licenses/by-nc-sa/4.0/
+ */
 package net.gnius.safepath;
 
 import java.lang.reflect.Field;
@@ -12,7 +22,6 @@ import java.util.regex.Pattern;
 // =================================================================================
 // CLASSE UTILITY SafePath
 // =================================================================================
-
 /**
  * Utility class for safely navigating object graphs using a string path.
  * This class provides a powerful {@code invoke} method that parses a path
